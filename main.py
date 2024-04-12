@@ -75,85 +75,85 @@ for dog_breed in dog_breeds:
         dst = os.path.join(dog_breed_train_dir, x)
         shutil.copyfile(src, dst)
 
-model = keras.Sequential([
-    keras.layers.Conv2D(32, (3, 3), padding='same', activation='relu', kernel_constraint=max_norm(3),
-                        input_shape=(150, 150, 3)),
-    keras.layers.MaxPooling2D((2, 2)),
-    keras.layers.Conv2D(64, (3, 3), padding='same', activation='relu', kernel_constraint=max_norm(3)),
-    keras.layers.MaxPooling2D((2, 2)),
-    keras.layers.Conv2D(128, (3, 3), padding='same', activation='relu', kernel_constraint=max_norm(3)),
-    keras.layers.MaxPooling2D((2, 2)),
-    keras.layers.Conv2D(256, (3, 3), padding='same', activation='relu', kernel_constraint=max_norm(3)),
-    keras.layers.MaxPooling2D((2, 2)),
-    keras.layers.Flatten(),
-    keras.layers.Dense(512, activation='relu'),
-    keras.layers.Dropout(0.5),
-    keras.layers.Dense(256, activation='relu'),
-    keras.layers.Dropout(0.5),
-    keras.layers.Dense(128, activation='relu'),
-    keras.layers.Dense(17, activation='softmax')
-])
-
-model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
-
-model.summary()
-
-train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
-    rescale=1./255,
-    rotation_range=40,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    fill_mode='nearest'
-)
-
-test_datagen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
-
-train_generator = train_datagen.flow_from_directory(
-    train_dir,
-    target_size=(150, 150),
-    batch_size=256,
-    class_mode='categorical'
-)
-
-validation_generator = test_datagen.flow_from_directory(
-    validation_dir,
-    target_size=(150, 150),
-    batch_size=256,
-    class_mode='categorical'
-)
-
-test_generator = test_datagen.flow_from_directory(
-    test_dir,
-    target_size=(150, 150),
-    batch_size=256,
-    class_mode='categorical'
-)
-
-history = model.fit(
-    train_generator,
-    steps_per_epoch=256,
-    epochs=50,
-    validation_data=validation_generator,
-    validation_steps=256,
-    verbose=1
-)
-
-test_loss, test_accuracy = model.evaluate(test_generator)
-
-test_accuracy
-
-# Define a function to plot the results
-def result_plotting():
-    plt.figure(figsize=[8, 6])
-    plt.plot(history.history['accuracy'], 'blue', linewidth=3.0)
-    plt.plot(history.history['val_accuracy'], 'red', ls='--', linewidth=3.0)
-    plt.legend(['Training Accuracy', 'Validation Accuracy'], fontsize=18, loc='lower right')
-    plt.xlabel('Epochs', fontsize=16)
-    plt.ylabel('Accuracy', fontsize=16)
-    plt.title('Accuracy Curves', fontsize=16)
-
-result_plotting()
-
+# model = keras.Sequential([
+#     keras.layers.Conv2D(32, (3, 3), padding='same', activation='relu', kernel_constraint=max_norm(3),
+#                         input_shape=(150, 150, 3)),
+#     keras.layers.MaxPooling2D((2, 2)),
+#     keras.layers.Conv2D(64, (3, 3), padding='same', activation='relu', kernel_constraint=max_norm(3)),
+#     keras.layers.MaxPooling2D((2, 2)),
+#     keras.layers.Conv2D(128, (3, 3), padding='same', activation='relu', kernel_constraint=max_norm(3)),
+#     keras.layers.MaxPooling2D((2, 2)),
+#     keras.layers.Conv2D(256, (3, 3), padding='same', activation='relu', kernel_constraint=max_norm(3)),
+#     keras.layers.MaxPooling2D((2, 2)),
+#     keras.layers.Flatten(),
+#     keras.layers.Dense(512, activation='relu'),
+#     keras.layers.Dropout(0.5),
+#     keras.layers.Dense(256, activation='relu'),
+#     keras.layers.Dropout(0.5),
+#     keras.layers.Dense(128, activation='relu'),
+#     keras.layers.Dense(17, activation='softmax')
+# ])
+#
+# model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
+#
+# model.summary()
+#
+# train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
+#     rescale=1./255,
+#     rotation_range=40,
+#     width_shift_range=0.2,
+#     height_shift_range=0.2,
+#     shear_range=0.2,
+#     zoom_range=0.2,
+#     horizontal_flip=True,
+#     fill_mode='nearest'
+# )
+#
+# test_datagen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
+#
+# train_generator = train_datagen.flow_from_directory(
+#     train_dir,
+#     target_size=(150, 150),
+#     batch_size=256,
+#     class_mode='categorical'
+# )
+#
+# validation_generator = test_datagen.flow_from_directory(
+#     validation_dir,
+#     target_size=(150, 150),
+#     batch_size=256,
+#     class_mode='categorical'
+# )
+#
+# test_generator = test_datagen.flow_from_directory(
+#     test_dir,
+#     target_size=(150, 150),
+#     batch_size=256,
+#     class_mode='categorical'
+# )
+#
+# history = model.fit(
+#     train_generator,
+#     steps_per_epoch=256,
+#     epochs=50,
+#     validation_data=validation_generator,
+#     validation_steps=256,
+#     verbose=1
+# )
+#
+# test_loss, test_accuracy = model.evaluate(test_generator)
+#
+# test_accuracy
+#
+# # Define a function to plot the results
+# def result_plotting():
+#     plt.figure(figsize=[8, 6])
+#     plt.plot(history.history['accuracy'], 'blue', linewidth=3.0)
+#     plt.plot(history.history['val_accuracy'], 'red', ls='--', linewidth=3.0)
+#     plt.legend(['Training Accuracy', 'Validation Accuracy'], fontsize=18, loc='lower right')
+#     plt.xlabel('Epochs', fontsize=16)
+#     plt.ylabel('Accuracy', fontsize=16)
+#     plt.title('Accuracy Curves', fontsize=16)
+#
+# result_plotting()
+#
