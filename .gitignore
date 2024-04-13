@@ -2,4 +2,6 @@ load-data
 .venv
 .ipynb_checkpoints
 dog-breeds
-main.py
+./main.ipynb
+.idea
+model.keras
